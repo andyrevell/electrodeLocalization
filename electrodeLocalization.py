@@ -455,7 +455,7 @@ for i in range(len(atlases)):
     atlasLabels =  join(atlasDirectory, atlasName + ".csv")
     
     if (".nii" in atlas):
-        atlasInMNI = join(outputDirectory, atlasName + ".nii.gz")
+        atlasInMNI = join(outputDirectoryTMP, atlasName + ".nii.gz")
         check_path(atlasInMNI)
         print(f"{atlasName}")
         if "RandomAtlas" in atlasName: 
@@ -470,13 +470,13 @@ for i in range(len(atlases)):
 
 
 #localization of channel distance to tissue segmentation: White Matter electrodes distance to Gray Matter
-outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeDistanceToWM.csv")
+outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeWM_DistanceToGM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceGM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 2, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceGM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceGM)
 
 #localization of channel distance to tissue segmentation: Gray Matter electrodes distance to White Matter
-outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeDistanceToGM.csv")
+outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeGM_DistanceToWM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceWM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 3, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceWM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceWM)
