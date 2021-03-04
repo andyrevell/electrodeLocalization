@@ -447,87 +447,90 @@ print(f"\nPictures of MNI nonlinear registration is saved to {outputDirectory}\n
 
 print("\n\n\nUsing MNI template warp to register all atlases (these atlases are already in MNI space)")
 #apply warp to all atlases
-applywarp_to_atlas(atlasDirectory, f"{preopT1_output}_std1x1x1.nii.gz", MNIwarp, outputDirectoryTMP)
+if not os.path.exists(join(outputDirectory, outputName)):
+    applywarp_to_atlas(atlasDirectory, f"{preopT1_output}_std1x1x1.nii.gz", MNIwarp, outputDirectoryTMP)
 
 
 #%%Electrode Localization
 print(f"\n\n{fillerString}Part 4 of 4\nElectrode Localization\nEstimated time: 10-20 min{fillerString}\nPerforming Electrode Localization\n")
-#localization by region to tissue segmentation 
-outputTissueCoordinates = join(outputDirectoryTMP, "tissueSegmentation.csv")
-by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
-#rename channels to standard 4 characters (2 letters, 2 numbers)
-channel2stdCSV(outputTissueCoordinates)
 
-
-
-#localization by region to atlases
-atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
-for i in range(len(atlases)):
-    atlasName = splitext(splitext(atlases[i])[0])[0]
-    atlas = join(atlasDirectory, atlases[i])
-    atlasLabels =  join(atlasDirectory, atlasName + ".csv")
+#do not run if electrode localization output file already exists. Part 3 atlas warp takes a while, so skip it. If need to re-run, delete old file.
+if not os.path.exists(join(outputDirectory, outputName)):
+    #localization by region to tissue segmentation 
+    outputTissueCoordinates = join(outputDirectoryTMP, "tissueSegmentation.csv")
+    by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
+    #rename channels to standard 4 characters (2 letters, 2 numbers)
+    channel2stdCSV(outputTissueCoordinates)
     
-    if (".nii" in atlas):
-        atlasInMNI = join(outputDirectoryTMP, atlasName + ".nii.gz")
-        check_path(atlasInMNI)
-        print(f"{atlasName}")
-        if "RandomAtlas" in atlasName: 
-            Labels=False
-        else:
-            check_path(atlasLabels)
-            Labels=True
-        outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
-        by_region(electrodePreopT1Coordinates, atlasInMNI, atlasLabels, outputAtlasCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = atlasName, Labels=Labels)
-        channel2stdCSV(outputAtlasCoordinates)
-
-
-#localization of channel distance to tissue segmentation: White Matter electrodes distance to Gray Matter
-print("\n\n\n\nFinding the WM electrode contacts distance to GM")
-outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeWM_DistanceToGM.csv")
-if not os.path.exists(outputTissueCoordinatesDistanceGM):
-    distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 2, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceGM, xColIndex=10, yColIndex=11, zColIndex=12)
-channel2stdCSV(outputTissueCoordinatesDistanceGM)
-
-#localization of channel distance to tissue segmentation: Gray Matter electrodes distance to White Matter
-print("\n\n\n\nFinding the GM electrode contacts distance to WM")
-outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeGM_DistanceToWM.csv")
-if not os.path.exists(outputTissueCoordinatesDistanceWM):
-    distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 3, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceWM, xColIndex=10, yColIndex=11, zColIndex=12)
-channel2stdCSV(outputTissueCoordinatesDistanceWM)
-
-
-print("\n\n\n\nConcatenating all files")
-#Concatenate files into one
-dataTissue = pd.read_csv(outputTissueCoordinates, sep=",", header=0)
-dataGM = pd.read_csv(outputTissueCoordinatesDistanceGM, sep=",", header=0).iloc[:,4:]
-dataWM = pd.read_csv(outputTissueCoordinatesDistanceWM, sep=",", header=0).iloc[:,4:]
-data = pd.concat([dataTissue, dataGM, dataWM]  , axis = 1)
-atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
-
-
-for i in range(len(atlases)):
-    atlasName = splitext(splitext(atlases[i])[0])[0]
-    atlas = join(atlasDirectory, atlases[i])
-    atlasLabels =  join(atlasDirectory, atlasName + ".csv")
-    if (".nii" in atlas):
-        if not ("RandomAtlas" in atlas):
-            print(atlasName)
+    
+    
+    #localization by region to atlases
+    atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
+    for i in range(len(atlases)):
+        atlasName = splitext(splitext(atlases[i])[0])[0]
+        atlas = join(atlasDirectory, atlases[i])
+        atlasLabels =  join(atlasDirectory, atlasName + ".csv")
+        
+        if (".nii" in atlas):
+            atlasInMNI = join(outputDirectoryTMP, atlasName + ".nii.gz")
+            check_path(atlasInMNI)
+            print(f"{atlasName}")
+            if "RandomAtlas" in atlasName: 
+                Labels=False
+            else:
+                check_path(atlasLabels)
+                Labels=True
             outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
-            data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
-                            
-for i in range(len(atlases)):
-    atlasName = splitext(splitext(atlases[i])[0])[0]
-    atlas = join(atlasDirectory, atlases[i])
-    atlasLabels =  join(atlasDirectory, atlasName + ".csv")
-    if (".nii" in atlas):
-        if ("RandomAtlas" in atlas):
-            print(atlasName)
-            outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
-            data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
-                            
-electrodeLocalization = join(outputDirectory, f"{outputName}")
-pd.DataFrame.to_csv(data, electrodeLocalization, header=True, index=False)
-
+            by_region(electrodePreopT1Coordinates, atlasInMNI, atlasLabels, outputAtlasCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = atlasName, Labels=Labels)
+            channel2stdCSV(outputAtlasCoordinates)
+    
+    
+    #localization of channel distance to tissue segmentation: White Matter electrodes distance to Gray Matter
+    print("\n\n\n\nFinding the WM electrode contacts distance to GM")
+    outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeWM_DistanceToGM.csv")
+    if not os.path.exists(outputTissueCoordinatesDistanceGM):
+        distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 2, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceGM, xColIndex=10, yColIndex=11, zColIndex=12)
+    channel2stdCSV(outputTissueCoordinatesDistanceGM)
+    
+    #localization of channel distance to tissue segmentation: Gray Matter electrodes distance to White Matter
+    print("\n\n\n\nFinding the GM electrode contacts distance to WM")
+    outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeGM_DistanceToWM.csv")
+    if not os.path.exists(outputTissueCoordinatesDistanceWM):
+        distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 3, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceWM, xColIndex=10, yColIndex=11, zColIndex=12)
+    channel2stdCSV(outputTissueCoordinatesDistanceWM)
+    
+    
+    print("\n\n\n\nConcatenating all files")
+    #Concatenate files into one
+    dataTissue = pd.read_csv(outputTissueCoordinates, sep=",", header=0)
+    dataGM = pd.read_csv(outputTissueCoordinatesDistanceGM, sep=",", header=0).iloc[:,4:]
+    dataWM = pd.read_csv(outputTissueCoordinatesDistanceWM, sep=",", header=0).iloc[:,4:]
+    data = pd.concat([dataTissue, dataGM, dataWM]  , axis = 1)
+    atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
+    
+    
+    for i in range(len(atlases)):
+        atlasName = splitext(splitext(atlases[i])[0])[0]
+        atlas = join(atlasDirectory, atlases[i])
+        atlasLabels =  join(atlasDirectory, atlasName + ".csv")
+        if (".nii" in atlas):
+            if not ("RandomAtlas" in atlas):
+                print(atlasName)
+                outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
+                data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
+                                
+    for i in range(len(atlases)):
+        atlasName = splitext(splitext(atlases[i])[0])[0]
+        atlas = join(atlasDirectory, atlases[i])
+        atlasLabels =  join(atlasDirectory, atlasName + ".csv")
+        if (".nii" in atlas):
+            if ("RandomAtlas" in atlas):
+                print(atlasName)
+                outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
+                data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
+                                
+    electrodeLocalization = join(outputDirectory, f"{outputName}")
+    pd.DataFrame.to_csv(data, electrodeLocalization, header=True, index=False)
 
 #clean
 print("\n\n\nCleaning Files")
@@ -540,7 +543,9 @@ cmd = f"rm {join(outputDirectory, 'mni_flirt*' )}"; print(cmd); os.system(cmd)
 cmd = f"rm -r {join(outputDirectory, 'tmp' )}"; print(cmd); os.system(cmd)
 
 
-print(f"\n\n\nDone\n\nFind files in {join(outputDirectory, outputName)}")
 
-
-
+if not os.path.exists(join(outputDirectory, outputName)):
+    print(f"\n\n\nDone\n\nFind electrode localization file in {join(outputDirectory, outputName)}\n\n")
+else:
+    print(f"\n\n\n\n\n\n\n\n\n\nNote: Electrode localization file alread exists in \n{join(outputDirectory, outputName)}\n\
+If you need to re-run pipeline, please delete this file (Part 3 atlas warp files will need to be re-made. They are large and only temporarily saved.\n\n\n\n\n")
