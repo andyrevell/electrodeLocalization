@@ -33,27 +33,43 @@ outputDirectory = sys.argv[7]
 """
 Examples:
     
-electrodePreopT1Coordinates = join("/media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_electrodenames_coordinates_native_and_T1.csv")
-preopT1 = join("/media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_T00_mprage.nii.gz")
-preopT1bet = join("/media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_T00_mprage_bet.nii.gz")
-MNItemplate = join("/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz")
-MNItemplatebet = join("/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz")
-atlasDirectory = join("/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/atlases")
+electrodePreopT1Coordinates = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv"
+preopT1 = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage.nii.gz"
+preopT1bet = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage_brainBrainExtractionBrain.nii.gz"
+MNItemplate = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz"
+MNItemplatebet = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz"
+atlasDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases"
 
-outputDirectory = join("/media/arevell/sharedSSD/linux/tools/exampleImages/output")
+outputDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/atlasLocalization"
 
 
 
+    
 conda activate electrodeLocalization
 
-python electrodeLocalization.py \
-    /media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_electrodenames_coordinates_native_and_T1.csv \
-    /media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_T00_mprage.nii.gz \
-    /media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_T00_mprage_bet.nii.gz \
-    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
-    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
-    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/atlases \
-    /media/arevell/sharedSSD/linux/tools/exampleImages/output
+python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/electrodeLocalization.py \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage_brainBrainExtractionBrain.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/atlasLocalization
+    
+    
+rid = "649"
+    
+    
+print(\
+    f"python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/electrodeLocalization.py \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage_brainBrainExtractionBrain.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases \
+    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/atlasLocalization" \
+    )
 """
 
 #%% functions
@@ -67,7 +83,7 @@ def check_path(path):
             Check if valid path
     '''
     if not os.path.exists(path):
-        raise IOError(f"Path or file does not exist:\n{path}" )
+        raise IOError(f"\n\n\n\nPath or file does not exist:\n{path}\n\n\n\n" )
 
 
 def register_MNI_to_preopT1(fname_preopT1, fname_preopT1bet, MNItemplate, MNItemplatebet, outputMNIname, outputDirectory):
@@ -89,7 +105,6 @@ def combine_first_and_fast(FIRST, FAST, outputName):
     #replace fast images with first images where not zero
     data_fast[np.where(data_first > 0)] = data_first[np.where(data_first > 0)] 
     #plot
-    show_slices(data_fast)
     img_first_fast = nib.Nifti1Image(data_fast, img_fast.affine)
     nib.save(img_first_fast, outputName)
     
@@ -287,7 +302,10 @@ def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, l
     if iteration == total:
         print()
 
-def show_slices(imgdata, low = 0.33, middle = 0.5, high = 0.66, save = False, saveFilename = None):
+def show_slices(fname, low = 0.33, middle = 0.5, high = 0.66, save = False, saveFilename = None):
+    
+    img = nib.load(fname)
+    imgdata = img.get_fdata()  
     """ Function to display row of image slices """
     slices1 = [   imgdata[:, :, int((imgdata.shape[2]*low)) ] , imgdata[:, :, int(imgdata.shape[2]*middle)] , imgdata[:, :, int(imgdata.shape[2]*high)]   ]
     slices2 = [   imgdata[:, int((imgdata.shape[1]*low)), : ] , imgdata[:, int(imgdata.shape[1]*middle), :] , imgdata[:, int(imgdata.shape[1]*high), :]   ]
@@ -316,95 +334,120 @@ def show_slices(imgdata, low = 0.33, middle = 0.5, high = 0.66, save = False, sa
             raise Exception("No file name was given to save figures")
         plt.savefig(saveFilename, transparent=True)
 
-#%% Input 
+#%% Input names
 
-
-
-#implantT1_preopT1SPACE = join("/media/arevell/sharedSSD/linux/tools/exampleImages/sub-RID0278_T01_mprage_to_T00_mprageANTs.nii.gz")
 
 check_path(preopT1)
 check_path(preopT1bet)
-#check_path(implantT1_preopT1SPACE)
 check_path(MNItemplate)
 check_path(MNItemplatebet)
 check_path(atlasDirectory)
 check_path(outputDirectory)
 
+#names of outputs output
+outputDirectoryTMP = join(outputDirectory, "tmp")
+
+
 preopT1_basename =  os.path.basename( splitext(splitext(preopT1)[0])[0])
 preopT1bet_basename =  os.path.basename( splitext(splitext(preopT1bet)[0])[0])
-#implantT1_preopT1SPACE_basename = os.path.basename( splitext(splitext(implantT1_preopT1SPACE)[0])[0])
+preopT1_output = f"{join(outputDirectoryTMP, preopT1_basename)}"
+preopT1bet_output = f"{join(outputDirectoryTMP, preopT1bet_basename)}"
 
 
-preopT1_output = f"{join(outputDirectory, preopT1_basename)}"
-preopT1bet_output = f"{join(outputDirectory, preopT1bet_basename)}"
-#implantT1_preopT1SPACE_output = f"{join(outputDirectory, implantT1_preopT1SPACE_basename)}"
-
-outputNameTissueSeg = join(outputDirectory, "tissueSegmentation.nii.gz")
-FIRST = join(outputDirectory, f"{preopT1bet_output}_std_all_fast_firstseg.nii.gz")
-FAST = join(outputDirectory, f"{preopT1bet_output}_std_seg.nii.gz")
-
+outputNameTissueSeg = join(outputDirectory, f"{preopT1_basename}_std1x1x1_tissueSegmentation.nii.gz")
+FIRST = join(outputDirectory, f"{preopT1_basename}_std1x1x1_FIRST.nii.gz")
+FAST = join(outputDirectory, f"{preopT1_basename}_std1x1x1_FAST.nii.gz")
 outputMNIname = "mni"
 MNIwarp = join(outputDirectory, outputMNIname + "_warp.nii.gz")
-#%%Orient all images to standard RAS
+
+
+
+#Make temporary storage 
+if not os.path.exists(outputDirectoryTMP):
+    cmd = f"mkdir {outputDirectoryTMP}"; print(cmd); os.system(cmd)
+
+#%%Begin Pipeline: Orient all images to standard RAS
 
 cmd = f"fslreorient2std {preopT1} {preopT1_output}_std.nii.gz"; print(cmd); os.system(cmd)
 cmd = f"fslreorient2std {preopT1bet} {preopT1bet_output}_std.nii.gz"; print(cmd); os.system(cmd)
 
+#Make images 1x1x1 mm in size (usually clinical images from electrodeLocalization pipelines are 0.98x0.98x1; others are even more different than 1x1x1)
+cmd = f"flirt -in {preopT1_output}_std.nii.gz -ref {preopT1_output}_std.nii.gz -applyisoxfm 1.0 -nosearch -out {preopT1_output}_std1x1x1.nii.gz"; print(cmd); os.system(cmd)
+cmd = f"flirt -in {preopT1bet_output}_std.nii.gz -ref {preopT1bet_output}_std.nii.gz -applyisoxfm 1.0 -nosearch -out {preopT1bet_output}_std1x1x1.nii.gz"; print(cmd); os.system(cmd)
+
+
+#visualize
+show_slices(f"{preopT1_output}_std1x1x1.nii.gz", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename = join(outputDirectory, "pic_T00.png")  )
+show_slices(f"{preopT1bet_output}_std1x1x1.nii.gz", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_T00bet.png"))
+
+
+
 
 
 #%%Tissue segmentation
-#subcortical segmentation (FIRST)
 
-if not os.path.exists(f"{preopT1bet_output}_std_all_fast_firstseg.nii.gz"):
-    cmd = f"run_first_all -i {preopT1bet_output}_std.nii.gz -o {preopT1bet_output}_std.nii.gz -b -v"; print(cmd); os.system(cmd)
-    #cleanup
-    cmd = f"rm -r {preopT1bet_output}_std.logs"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std*.bvars"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std*.vtk"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std*origsegs*"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std_to_std*"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std*.com*"; print(cmd); os.system(cmd)
+
+
+#FIRST: subcortical segmentation
+if not os.path.exists(FIRST):
+    cmd = f"run_first_all -i {preopT1bet_output}_std1x1x1.nii.gz -o {preopT1bet_output}_std1x1x1.nii.gz -b -v"; print(cmd); os.system(cmd)
+    #clean up files
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1.logs"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1*.bvars"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1*.vtk"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1*origsegs*"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1_to_std*"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1*.com*"; print(cmd); os.system(cmd)
+    cmd = f"mv {preopT1bet_output}_std1x1x1_all_fast_firstseg.nii.gz {FIRST}"; print(cmd); os.system(cmd)
+    
 else:
-    print(f"File exists:\n{preopT1bet_output}_std_all_fast_firstseg.nii.gz")
-#seg of preop img  (FAST)
-if not os.path.exists(f"{preopT1bet_output}_std_seg.nii.gz"):
-    cmd = f"fast -n 3 -H 0.25 -t 1 -v {preopT1bet_output}_std.nii.gz"; print(cmd); os.system(cmd)
+    print(f"File exists:\n{FIRST}")
+show_slices(f"{FIRST}", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_FIRST.png"))
+    
+    
+    
+#FAST: segmentation of corte
+if not os.path.exists(FAST):
+    cmd = f"fast -n 3 -H 0.25 -t 1 -v {preopT1bet_output}_std1x1x1.nii.gz"; print(cmd); os.system(cmd)
     #Clean up files
-    cmd = f"rm -r {preopT1bet_output}_std_*mixeltype*"; print(cmd); os.system(cmd)
-    cmd = f"rm -r {preopT1bet_output}_std_*pve*"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1_*mixeltype*"; print(cmd); os.system(cmd)
+    cmd = f"rm -r {preopT1bet_output}_std1x1x1_*pve*"; print(cmd); os.system(cmd)
+    cmd = f"mv {preopT1bet_output}_std1x1x1_seg.nii.gz {FAST}"; print(cmd); os.system(cmd)
 else:
-    print(f"File exists:\n{preopT1bet_output}_std_seg.nii.gz")
+    print(f"File exists:\n{FAST}")
+show_slices(f"{FAST}", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_FAST.png"))
 
+
+
+#Combine FIRST and FAST images
 combine_first_and_fast(FIRST, FAST, outputNameTissueSeg)
+show_slices(outputNameTissueSeg, low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_tissueSegmentation.png"))
+
+
 #%%Registration of MNI to patient space (atlases are all in MNI space, so using this warp to apply to the atlases)
 
 if not os.path.exists(MNIwarp):
-    register_MNI_to_preopT1(f"{preopT1_output}_std.nii.gz", f"{preopT1bet_output}_std.nii.gz", MNItemplate, MNItemplatebet, outputMNIname, outputDirectory)
+    register_MNI_to_preopT1(f"{preopT1_output}_std1x1x1.nii.gz", f"{preopT1bet_output}_std1x1x1.nii.gz", MNItemplate, MNItemplatebet, outputMNIname, outputDirectory)
+show_slices(f"{join(outputDirectory, outputMNIname)}_fnirt.nii.gz", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_mni_fnirt.png"))
 
 
 
-#%%
+
 #apply warp to all atlases
-
-
-applywarp_to_atlas(atlasDirectory, f"{preopT1_output}_std.nii.gz", MNIwarp, outputDirectory)
+applywarp_to_atlas(atlasDirectory, f"{preopT1_output}_std1x1x1.nii.gz", MNIwarp, outputDirectoryTMP)
 
 
 #%%Electrode Localization
 
-
-#############
-#############
 #localization by region to tissue segmentation 
-outputTissueCoordinates = join(outputDirectory, "tissueSegmentation.csv")
+outputTissueCoordinates = join(outputDirectoryTMP, "tissueSegmentation.csv")
 by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
 #rename channels to standard 4 characters (2 letters, 2 numbers)
-
 channel2stdCSV(outputTissueCoordinates)
-#############
-#############
-#localization by region to atlases
 
+
+
+#localization by region to atlases
 atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
 for i in range(len(atlases)):
     atlasName = splitext(splitext(atlases[i])[0])[0]
@@ -420,21 +463,20 @@ for i in range(len(atlases)):
         else:
             check_path(atlasLabels)
             Labels=True
-        outputAtlasCoordinates = join(outputDirectory, f"{atlasName}" + "_localization.csv")
+        outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
         by_region(electrodePreopT1Coordinates, atlasInMNI, atlasLabels, outputAtlasCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = atlasName, Labels=Labels)
         channel2stdCSV(outputAtlasCoordinates)
 
 
 
-#############
-#############
-#localization of channel distance to tissue segmentation 
-outputTissueCoordinatesDistanceGM = join(outputDirectory, "tissueSegmentationDistanceToWM.csv")
+#localization of channel distance to tissue segmentation: White Matter electrodes distance to Gray Matter
+outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeDistanceToWM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceGM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 2, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceGM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceGM)
 
-outputTissueCoordinatesDistanceWM = join(outputDirectory, "tissueSegmentationDistanceToGM.csv")
+#localization of channel distance to tissue segmentation: Gray Matter electrodes distance to White Matter
+outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeDistanceToGM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceWM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 3, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceWM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceWM)
@@ -445,48 +487,44 @@ dataTissue = pd.read_csv(outputTissueCoordinates, sep=",", header=0)
 dataGM = pd.read_csv(outputTissueCoordinatesDistanceGM, sep=",", header=0).iloc[:,4:]
 dataWM = pd.read_csv(outputTissueCoordinatesDistanceWM, sep=",", header=0).iloc[:,4:]
 data = pd.concat([dataTissue, dataGM, dataWM]  , axis = 1)
-
-
 atlases = [f for f in listdir(atlasDirectory) if isfile(join(atlasDirectory, f))]
+
+
 for i in range(len(atlases)):
     atlasName = splitext(splitext(atlases[i])[0])[0]
     atlas = join(atlasDirectory, atlases[i])
     atlasLabels =  join(atlasDirectory, atlasName + ".csv")
-    
     if (".nii" in atlas):
-        print(atlasName)
-        outputAtlasCoordinates = join(outputDirectory, f"{atlasName}" + "_localization.csv")
-        data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
-                        
+        if not ("RandomAtlas" in atlas):
+            print(atlasName)
+            outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
+            data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
+                            
+for i in range(len(atlases)):
+    atlasName = splitext(splitext(atlases[i])[0])[0]
+    atlas = join(atlasDirectory, atlases[i])
+    atlasLabels =  join(atlasDirectory, atlasName + ".csv")
+    if (".nii" in atlas):
+        if ("RandomAtlas" in atlas):
+            print(atlasName)
+            outputAtlasCoordinates = join(outputDirectoryTMP, f"{atlasName}" + "_localization.csv")
+            data= pd.concat([data, pd.read_csv(outputAtlasCoordinates, sep=",", header=0).iloc[:,4:] ] , axis = 1)
+                            
 electrodeLocalization = join(outputDirectory, "electrodeLocalization.csv")
-
 pd.DataFrame.to_csv(data, electrodeLocalization, header=True, index=False)
 
-#%%Visualization
 
 
-#img = nib.load(f"{preopT1_output}_std.nii.gz")
-#imgdata = img.get_fdata() 
-#show_slices(imgdata, low = 0.33, middle = 0.5, high = 0.66, save = False, saveFilename = None)
+#clean
+
+cmd = f"mv {preopT1_output}_std1x1x1.nii.gz {outputDirectory}"; print(cmd); os.system(cmd)
+cmd = f"mv {preopT1bet_output}_std1x1x1.nii.gz {outputDirectory}"; print(cmd); os.system(cmd)
 
 
-#img = nib.load(f"{preopT1bet_output}_std.nii.gz")
-#imgdata = img.get_fdata() 
-#show_slices(imgdata, low = 0.33, middle = 0.5, high = 0.66, save = False, saveFilename = None)
-
-
+cmd = f"rm {join(outputDirectory, 'mni_flirt*' )}"; print(cmd); os.system(cmd)
+cmd = f"rm -r {join(outputDirectory, 'tmp' )}"; print(cmd); os.system(cmd)
 
 
 
 
 
-
-
-
-
-
-
-
-#cmd = f"fslreorient2std {implantT1_preopT1SPACE} {implantT1_preopT1SPACE_output}_std.nii.gz"; print(cmd); os.system(cmd)
-#cmd = f"bet {preopT1_output}_std.nii.gz {preopT1_output}_std_bet.nii.gz -f {f} -g {g}"; print(cmd); os.system(cmd)
-#cmd = f"bet {implantT1_preopT1SPACE_output}_std.nii.gz {implantT1_preopT1SPACE_output}_std_bet.nii.gz -f {f} -g {g}"; print(cmd); os.system(cmd)
