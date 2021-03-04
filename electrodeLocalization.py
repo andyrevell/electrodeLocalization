@@ -64,7 +64,7 @@ python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalizatio
     sub-RID0596_electrodeLocalization.csv
     
     
-rid = "649"
+rid = "454"
     
     
 print(\
@@ -378,7 +378,7 @@ if not os.path.exists(outputDirectoryTMP):
 
 #%%Begin Pipeline: Orient all images to standard RAS
 
-print(f"\n\n{fillerString}Part 1\nReorientation of Images{fillerString}\nReorient all images to standard RAS\n")
+print(f"\n\n{fillerString}Part 1 of 4\nReorientation of Images\nEstimated time: 30 seconds{fillerString}\nReorient all images to standard RAS\n")
 cmd = f"fslreorient2std {preopT1} {preopT1_output}_std.nii.gz"; print(cmd); os.system(cmd)
 cmd = f"fslreorient2std {preopT1bet} {preopT1bet_output}_std.nii.gz"; print(cmd); os.system(cmd)
 
@@ -397,7 +397,7 @@ print(f"\n\nPictures are saved to {outputDirectory}\nPlease check for quality as
 
 
 #%%Tissue segmentation
-print(f"\n\n{fillerString}Part 2\nTissue Segmentation{fillerString}\nRUNNING FIRST SUBCORTICAL SEGMENTATION\n")
+print(f"\n\n{fillerString}Part 2 of 4\nTissue Segmentation\nEstimated time: 30+ min{fillerString}\nRUNNING FIRST SUBCORTICAL SEGMENTATION\n")
 
 #FIRST: subcortical segmentation
 if not os.path.exists(FIRST):
@@ -438,7 +438,7 @@ print(f"\nPictures of FIRST + FAST combined images (pic_tissueSegmentation.png) 
 
 
 #%%Registration of MNI to patient space (atlases are all in MNI space, so using this warp to apply to the atlases)
-print(f"\n\n{fillerString}Part 3\nMNI and atlas registration{fillerString}\nRegistration of MNI template to patient space\n")
+print(f"\n\n{fillerString}Part 3 of 4\nMNI and atlas registration\nEstimated time: 1-2+ hours{fillerString}\nRegistration of MNI template to patient space\n")
 if not os.path.exists(MNIwarp):
     register_MNI_to_preopT1(f"{preopT1_output}_std1x1x1.nii.gz", f"{preopT1bet_output}_std1x1x1.nii.gz", MNItemplate, MNItemplatebet, outputMNIname, outputDirectory)
 show_slices(f"{join(outputDirectory, outputMNIname)}_fnirt.nii.gz", low = 0.33, middle = 0.5, high = 0.66, save = True, saveFilename =  join(outputDirectory, "pic_mni_fnirt.png"))
@@ -451,7 +451,7 @@ applywarp_to_atlas(atlasDirectory, f"{preopT1_output}_std1x1x1.nii.gz", MNIwarp,
 
 
 #%%Electrode Localization
-print(f"\n\n{fillerString}Part 4\nElectrode Localization{fillerString}\nPerforming Electrode Localization\n")
+print(f"\n\n{fillerString}Part 4 of 4\nElectrode Localization\nEstimated time: 10-20 min{fillerString}\nPerforming Electrode Localization\n")
 #localization by region to tissue segmentation 
 outputTissueCoordinates = join(outputDirectoryTMP, "tissueSegmentation.csv")
 by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
@@ -482,21 +482,21 @@ for i in range(len(atlases)):
 
 
 #localization of channel distance to tissue segmentation: White Matter electrodes distance to Gray Matter
-print("\n\n\n\Finding the WM electrode contacts distance to GM")
+print("\n\n\n\nFinding the WM electrode contacts distance to GM")
 outputTissueCoordinatesDistanceGM = join(outputDirectory, "electrodeWM_DistanceToGM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceGM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 2, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceGM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceGM)
 
 #localization of channel distance to tissue segmentation: Gray Matter electrodes distance to White Matter
-print("\n\n\n\Finding the GM electrode contacts distance to WM")
+print("\n\n\n\nFinding the GM electrode contacts distance to WM")
 outputTissueCoordinatesDistanceWM = join(outputDirectory, "electrodeGM_DistanceToWM.csv")
 if not os.path.exists(outputTissueCoordinatesDistanceWM):
     distance_from_label(electrodePreopT1Coordinates, outputNameTissueSeg, 3, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinatesDistanceWM, xColIndex=10, yColIndex=11, zColIndex=12)
 channel2stdCSV(outputTissueCoordinatesDistanceWM)
 
 
-print("\n\n\n\Concatenating all files")
+print("\n\n\n\nConcatenating all files")
 #Concatenate files into one
 dataTissue = pd.read_csv(outputTissueCoordinates, sep=",", header=0)
 dataGM = pd.read_csv(outputTissueCoordinatesDistanceGM, sep=",", header=0).iloc[:,4:]
@@ -530,7 +530,7 @@ pd.DataFrame.to_csv(data, electrodeLocalization, header=True, index=False)
 
 
 #clean
-print("\n\n\n\Cleaning Files")
+print("\n\n\nCleaning Files")
 
 cmd = f"mv {preopT1_output}_std1x1x1.nii.gz {outputDirectory}"; print(cmd); os.system(cmd)
 cmd = f"mv {preopT1bet_output}_std1x1x1.nii.gz {outputDirectory}"; print(cmd); os.system(cmd)
@@ -540,7 +540,7 @@ cmd = f"rm {join(outputDirectory, 'mni_flirt*' )}"; print(cmd); os.system(cmd)
 cmd = f"rm -r {join(outputDirectory, 'tmp' )}"; print(cmd); os.system(cmd)
 
 
-print(f"\n\n\n\Done\n\nFind files in {join(outputDirectory, outputName)}")
+print(f"\n\n\nDone\n\nFind files in {join(outputDirectory, outputName)}")
 
 
 
