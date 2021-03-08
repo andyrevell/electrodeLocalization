@@ -39,44 +39,44 @@ fillerString = "\n###########################\n###########################\n####
 """
 Examples:
     
-electrodePreopT1Coordinates = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv"
-preopT1 = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage.nii.gz"
-preopT1bet = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage_brainBrainExtractionBrain.nii.gz"
-MNItemplate = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz"
-MNItemplatebet = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz"
-atlasDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases"
+electrodePreopT1Coordinates = "/media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0517/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv"
+preopT1 = "/media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage.nii.gz"
+preopT1bet = "/media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage_brainBrainExtractionBrain.nii.gz"
+MNItemplate = "/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz"
+MNItemplatebet = "/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz"
+atlasDirectory = "/media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/atlases"
 
-outputDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/atlasLocalization"
+outputDirectory = "/media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0517/electrodeLocalization/atlasLocalization"
 outputName = "sub-RID0517_electrodeLocalization.csv"
 
 
     
 conda activate electrodeLocalization
 
-python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/electrodeLocalization.py \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage_brainBrainExtractionBrain.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0596/electrodeLocalization/atlasLocalization
+python /media/arevell/sharedSSD/linux/tools/electrodeLocalization/electrodeLocalization.py \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0596/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage.nii.gz \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0596/electrodeLocalization/T00_RID596_mprage_brainBrainExtractionBrain.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/atlases \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0596/electrodeLocalization/atlasLocalization
     sub-RID0596_electrodeLocalization.csv
     
     
-rid = "560"
+rid = "596"
     
     
 print(\
     f"conda activate electrodeLocalization \n\
-python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/electrodeLocalization.py \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage_brainBrainExtractionBrain.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases \
-    /media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/atlasLocalization \
+python /media/arevell/sharedSSD/linux/tools/electrodeLocalization/electrodeLocalization.py \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage.nii.gz \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/T00_RID{rid}_mprage_brainBrainExtractionBrain.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz \
+    /media/arevell/sharedSSD/linux/tools/electrodeLocalization/tools/atlases \
+    /media/arevell/sharedSSD/linux/data/BIDS/derivatives/sub-RID0{rid}/electrodeLocalization/atlasLocalization \
     sub-RID0{rid}_electrodeLocalization.csv\n\n" \
     )
     
