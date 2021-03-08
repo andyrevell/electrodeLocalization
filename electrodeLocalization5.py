@@ -16,6 +16,7 @@ from os.path import splitext
 import numpy as np
 import nibabel as nib
 import matplotlib.pyplot as plt
+#import ants
 #import seaborn as sns
 
 
@@ -25,11 +26,12 @@ import matplotlib.pyplot as plt
 electrodePreopT1Coordinates = sys.argv[1]
 preopT1 = sys.argv[2]
 preopT1bet = sys.argv[3]
-MNItemplate = sys.argv[4]
-MNItemplatebet = sys.argv[5]
-atlasDirectory = sys.argv[6]
-outputDirectory = sys.argv[7]
-outputName = str(sys.argv[8])
+CTsegmentation = sys.argv[4]
+MNItemplate = sys.argv[5]
+MNItemplatebet = sys.argv[6]
+atlasDirectory = sys.argv[7]
+outputDirectory = sys.argv[8]
+outputName = str(sys.argv[9])
 
 if not splitext(outputName)[1] == ".csv":
     raise IOError(f"\n\n\n\nOutput Name must end with .csv.\n\nWhat is given:\n{outputName}\n\n\n\n" )
@@ -39,15 +41,16 @@ fillerString = "\n###########################\n###########################\n####
 """
 Examples:
     
-electrodePreopT1Coordinates = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv"
-preopT1 = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage.nii.gz"
-preopT1bet = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/T00_RID517_mprage_brainBrainExtractionBrain.nii.gz"
+electrodePreopT1Coordinates = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0652/electrodeLocalization/electrodenames_coordinates_native_and_T1.csv"
+preopT1 = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0652/electrodeLocalization/T00_RID652_mprage.nii.gz"
+preopT1bet = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0652/electrodeLocalization/T00_RID652_mprage_brainBrainExtractionBrain.nii.gz"
+CTsegmentation = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0652/electrodeLocalization/T00_RID652_mprage_wholebrainseg_to_T01_CT.nii.gz"
 MNItemplate = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182.nii.gz"
 MNItemplatebet = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/mniTemplate/mni_icbm152_t1_tal_nlin_asym_09c_182x218x182_brain.nii.gz"
 atlasDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalization/tools/atlases"
 
-outputDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0517/electrodeLocalization/atlasLocalization"
-outputName = "sub-RID0517_electrodeLocalization.csv"
+outputDirectory = "/media/arevell/sharedSSD/linux/electrodeLocalization/BIDS/derivatives/sub-RID0652/electrodeLocalization/atlasLocalization"
+outputName = "sub-RID0652_electrodeLocalization.csv"
 
 
     
@@ -64,7 +67,7 @@ python /media/arevell/sharedSSD/linux/electrodeLocalization/electrodeLocalizatio
     sub-RID0596_electrodeLocalization.csv
     
     
-rid = "560"
+rid = "596"
     
     
 print(\
@@ -136,6 +139,26 @@ def applywarp_to_atlas(atlasDirectory, fname_preopT1, MNIwarp, outputDirectory):
             else: print(f"File exists: {outputAtlasName}")
             
             
+#inputImage=   CTsegmentation     
+#WMlabels = [44,45]
+#outputName = splitext(splitext(CTsegmentation)[0])[0] + "_tissueClasses.nii.gz"
+def convert_to_GMWM(inputImage, WMlabels, outputName):
+    img= nib.load(inputImage)
+    data= img.get_fdata() 
+    
+    #header = img.header
+    #header.get_data_shape()
+    #show_slices(inputImage)
+    
+    for i in range(len(WMlabels)):
+        data[np.where(data == WMlabels[i])] = -1 #convert WM labels to -1 value
+    data[np.where(data > 0)] = 2 #convert all other values to GM values = 2 
+    data[np.where(data ==-1)] = 3 #convert WM values to = 3
+    img = nib.Nifti1Image(data, img.affine)
+    nib.save(img, outputName)
+
+#convert_to_GMWM(CTsegmentation, WMlabels, outputName)    
+    
 def by_region(electrodePreopT1Coordinates, atlasPath, atlasLabelsPath, ofname,  xColIndex=10, yColIndex=11, zColIndex=12, description = "unknown_atlas", Labels=True):
     # getting imaging data
     img = nib.load(atlasPath)
@@ -352,6 +375,7 @@ def show_slices(fname, low = 0.33, middle = 0.5, high = 0.66, save = False, save
 check_path(electrodePreopT1Coordinates)
 check_path(preopT1)
 check_path(preopT1bet)
+check_path(CTsegmentation)
 check_path(MNItemplate)
 check_path(MNItemplatebet)
 check_path(atlasDirectory)
@@ -461,8 +485,11 @@ print(f"\n\n{fillerString}Part 4 of 4\nElectrode Localization\nEstimated time: 1
 
 #do not run if electrode localization output file already exists. Part 3 atlas warp takes a while, so skip it. If need to re-run, delete old file.
 if not os.path.exists(join(outputDirectory, outputName)):
-    #localization by region to tissue segmentation 
+    #localization by region to tissue segmentation using CT segmentation
     outputTissueCoordinates = join(outputDirectoryTMP, "tissueSegmentation.csv")
+    
+    
+    by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
     by_region(electrodePreopT1Coordinates, outputNameTissueSeg, join(atlasDirectory, "tissue_segmentation.csv"), outputTissueCoordinates,  xColIndex=10, yColIndex=11, zColIndex=12, description = "tissue_segmentation", Labels=True)
     #rename channels to standard 4 characters (2 letters, 2 numbers)
     channel2stdCSV(outputTissueCoordinates)
